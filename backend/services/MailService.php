@@ -39,13 +39,28 @@ class MailService {
         }
     }
 
-    // 2. EMAIL ALL'ADMIN (Notifica nuovo lead)
+  // 2. EMAIL ALL'ADMIN (Notifica nuovo lead)
     public function sendAdminNotification($contactData) {
         try {
             $mail = $this->getMailer();
-            // Invia alla mail definita nel .env come ADMIN o alla mail SMTP_USER di default
-            $adminEmail = $_ENV['ADMIN_EMAIL'] ?? $_ENV['SMTP_USER'];
+            
+            // 1. Imposta il destinatario principale (info@blendstudio.it)
+            $adminEmail = $_ENV['ADMIN_EMAIL'];
             $mail->addAddress($adminEmail, 'Admin ServiceFirst');
+
+            // 2. Gestione dei CC (lorenzo@..., matteo@...)
+            if (!empty($_ENV['ADMIN_CC_EMAILS'])) {
+                // Divide la stringa in un array basandosi sulla virgola
+                $ccEmails = explode(',', $_ENV['ADMIN_CC_EMAILS']);
+                
+                foreach ($ccEmails as $cc) {
+                    $cc = trim($cc); // Rimuove eventuali spazi vuoti
+                    if (!empty($cc)) {
+                        $mail->addCC($cc);
+                    }
+                }
+            }
+
             // Opzionale: Reply-To impostato sulla mail del lead per rispondere subito
             $mail->addReplyTo($contactData->email, $contactData->nome);
 
