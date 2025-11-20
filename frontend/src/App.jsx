@@ -963,7 +963,7 @@ function App() {
       <footer className="bg-white border-t border-gray-100 py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
           <motion.div whileHover={{ scale: 1.1, filter: "grayscale(0%)", opacity: 1 }} className="w-20 md:w-24 opacity-80 grayscale transition cursor-pointer">
-             <img src="./src/assets/img/s1.png" alt="Service First" />
+             <img src={mainLogo} alt="Service First" />
           </motion.div>
           <div className="flex gap-6 text-gray-400">
              <motion.div whileHover={{ color: "#0d9488", rotate: 15 }}><Globe size={20} className="cursor-pointer"/></motion.div>
