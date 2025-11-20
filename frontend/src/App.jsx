@@ -4,14 +4,11 @@ import {
   Download, CheckCircle, ArrowRight, Zap, ShieldCheck, 
   Database, Layers, Smartphone, Search, Globe, 
   ShoppingCart, MousePointer, BarChart3, Users, Sparkles, 
-  TrendingUp, X, Check, Building2, Crown, Briefcase
+  TrendingUp, X, Check, Building2, Crown, Briefcase, 
+  Phone, User, MessageSquare, Lock
 } from 'lucide-react';
 
 // --- IMPORTAZIONE LOGHI ---
-
-// --- IMPORTAZIONE LOGO PRINCIPALE ---
-import mainLogo from './assets/img/s1.png';
-
 import cifaLogo from './assets/img/loghi aggiunti/cifa service first.png';
 import energreenLogo from './assets/img/loghi aggiunti/energreen service first.png';
 import geetitLogo from './assets/img/loghi aggiunti/geetit-service first.png';
@@ -40,7 +37,7 @@ const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
   }
 };
 
@@ -81,13 +78,23 @@ const AnimatedCounter = ({ end, duration = 2500, suffix = '', prefix = '', color
 };
 
 function App() {
-  const [formData, setFormData] = useState({ nome: '', email: '', azienda: '' });
+  // Stato del form esteso
+  const [formData, setFormData] = useState({ 
+    nome: '', 
+    email: '', 
+    azienda: '', 
+    telefono: '', 
+    ruolo: '', 
+    messaggio: '',
+    privacy: false 
+  });
   const [status, setStatus] = useState(null);
   const [activeTab, setActiveTab] = useState('ia');
   const [activeVendiTab, setActiveVendiTab] = useState('carrello');
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -102,11 +109,11 @@ function App() {
       const result = await response.json();
       setStatus(result.success ? 'success' : 'error');
     } catch (error) {
-      setTimeout(() => setStatus('success'), 1000);
+      setTimeout(() => setStatus('success'), 1500); // Simulazione ritardo per vedere animazione loading
     }
   };
 
-  // --- DATI PRICING (Dall'immagine fornita) ---
+  // --- DATI PRICING ---
   const plans = [
     {
       name: "LIGHT",
@@ -244,7 +251,7 @@ function App() {
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="w-24 md:w-32">
-            <img src={mainLogo} alt="Service First Logo" className="w-full h-auto object-contain" />
+            <img src="./src/assets/img/s1.png" alt="Service First Logo" className="w-full h-auto object-contain" />
           </div>
           <motion.a 
             whileHover={{ scale: 1.05 }}
@@ -605,9 +612,8 @@ function App() {
         </div>
       </section>
 
-      {/* --- SEZIONE PRICING (Piani e Funzionalità) AGGIUNTA --- */}
+      {/* SEZIONE PRICING (Piani e Funzionalità) */}
       <section id="pricing" className="py-20 bg-gradient-to-b from-teal-600 to-teal-700 relative overflow-hidden">
-        {/* Pattern di sfondo */}
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
@@ -637,7 +643,6 @@ function App() {
                 whileHover={{ y: -10 }}
                 className={`relative bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col ${plan.highlight ? 'md:-mt-4 md:mb-4 z-10 border-4 border-yellow-400' : 'border border-gray-100'}`}
               >
-                {/* Tag Popolare / Ideale */}
                 <div className={`py-2 px-4 text-center text-xs font-bold tracking-widest uppercase ${plan.highlight ? 'bg-yellow-400 text-sf-dark' : 'bg-gray-100 text-gray-500'}`}>
                   {plan.tag}
                 </div>
@@ -701,7 +706,7 @@ function App() {
         </div>
       </section>
 
-      {/* Why Choose Us / Stats Section - (RIPRISTINATA ORIGINALE) */}
+      {/* Why Choose Us / Stats Section - MODIFICATA */}
       <section className="py-16 md:py-24 bg-sf-dark text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         
@@ -710,94 +715,91 @@ function App() {
         <motion.div animate={{ opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 4, repeat: Infinity, delay: 1 }} className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl"></motion.div>
         
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-stretch">
+          <div className="flex flex-col gap-12 md:gap-16 items-center">
+            
+            {/* PART 1: Text and Numbers (SOPRA) */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
+              className="w-full"
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">I Numeri di ServiceFirst</h2>
-              <p className="text-gray-400 mb-6 md:mb-8 text-base md:text-lg">
-                Le aziende che scelgono la nostra piattaforma ottengono risultati misurabili fin dai primi mesi di utilizzo.
-              </p>
+              <div className="text-center max-w-3xl mx-auto mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">I Numeri di ServiceFirst</h2>
+                <p className="text-gray-400 text-base md:text-lg">
+                  Le aziende che scelgono la nostra piattaforma ottengono risultati misurabili fin dai primi mesi di utilizzo.
+                </p>
+              </div>
               
-              <div className="space-y-6 md:space-y-8">
-                {/* First Metric */}
+              {/* Numbers List - Grid on desktop for top position */}
+              <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+                {/* Metric 1 */}
                 <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0 }}
-                  viewport={{ once: true }}
-                  className="group cursor-default hover:translate-x-2 transition duration-300"
+                  whileHover={{ y: -5 }}
+                  className="group cursor-default bg-gray-800/30 p-6 rounded-2xl border border-gray-700/50 hover:bg-gray-800/60 transition duration-300"
                 >
                   <div className="flex gap-4 items-start">
-                    <div className="mt-2 bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-xl h-fit text-white shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 group-hover:scale-110 transition duration-300">
-                      <TrendingUp size={28} className="md:w-8 md:h-8"/>
+                    <div className="mt-2 bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-xl h-fit text-white shadow-lg shadow-green-500/30">
+                      <TrendingUp size={24}/>
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-lg md:text-xl font-bold mb-2 text-white group-hover:text-green-400 transition">Incremento Vendite Ricambi</h4>
-                      <div className="text-5xl md:text-6xl lg:text-7xl font-black text-green-400 drop-shadow-lg flex items-center">
+                      <h4 className="text-lg font-bold mb-2 text-white group-hover:text-green-400 transition">Incremento Vendite</h4>
+                      <div className="text-4xl lg:text-5xl font-black text-green-400 drop-shadow-lg flex items-center">
                         +<AnimatedCounter end={40} suffix="%" duration={2500} color="text-green-400" />
                       </div>
-                      <p className="text-gray-400 text-sm mt-3">Grazie all'e-commerce integrato e alla facilità di ordinazione per i clienti.</p>
+                      <p className="text-gray-400 text-sm mt-3">Grazie all'e-commerce integrato.</p>
                     </div>
                   </div>
                 </motion.div>
 
-                {/* Second Metric */}
+                {/* Metric 2 */}
                 <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="group cursor-default hover:translate-x-2 transition duration-300"
+                   whileHover={{ y: -5 }}
+                   className="group cursor-default bg-gray-800/30 p-6 rounded-2xl border border-gray-700/50 hover:bg-gray-800/60 transition duration-300"
                 >
                   <div className="flex gap-4 items-start">
-                    <div className="mt-2 bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-xl h-fit text-white shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 group-hover:scale-110 transition duration-300">
-                      <Layers size={28} className="md:w-8 md:h-8"/>
+                    <div className="mt-2 bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-xl h-fit text-white shadow-lg shadow-orange-500/30">
+                      <Layers size={24}/>
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-lg md:text-xl font-bold mb-2 text-white group-hover:text-orange-400 transition">Risparmio Tempi di Gestione</h4>
-                      <div className="text-5xl md:text-6xl lg:text-7xl font-black text-orange-400 drop-shadow-lg flex items-center">
+                      <h4 className="text-lg font-bold mb-2 text-white group-hover:text-orange-400 transition">Risparmio Tempo</h4>
+                      <div className="text-4xl lg:text-5xl font-black text-orange-400 drop-shadow-lg flex items-center">
                          -<AnimatedCounter end={32} suffix="%" duration={2500} color="text-orange-400" />
                       </div>
-                      <p className="text-gray-400 text-sm mt-3">Automatizza i processi manuali e libera il tuo team dal data-entry.</p>
+                      <p className="text-gray-400 text-sm mt-3">Automatizza i processi manuali.</p>
                     </div>
                   </div>
                 </motion.div>
 
-                {/* Third Metric */}
+                {/* Metric 3 */}
                 <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  viewport={{ once: true }}
-                  className="group cursor-default hover:translate-x-2 transition duration-300"
+                   whileHover={{ y: -5 }}
+                   className="group cursor-default bg-gray-800/30 p-6 rounded-2xl border border-gray-700/50 hover:bg-gray-800/60 transition duration-300"
                 >
                   <div className="flex gap-4 items-start">
-                    <div className="mt-2 bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-xl h-fit text-white shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 group-hover:scale-110 transition duration-300">
-                      <Users size={28} className="md:w-8 md:h-8"/>
+                    <div className="mt-2 bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-xl h-fit text-white shadow-lg shadow-blue-500/30">
+                      <Users size={24}/>
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-lg md:text-xl font-bold mb-2 text-white group-hover:text-blue-400 transition">Fidelizzazione Clienti</h4>
-                      <div className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg flex items-center">
+                      <h4 className="text-lg font-bold mb-2 text-white group-hover:text-blue-400 transition">Fidelizzazione</h4>
+                      <div className="text-4xl lg:text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg flex items-center">
                          +<AnimatedCounter end={85} suffix="%" duration={2500} color="text-blue-400" />
                       </div>
-                      <p className="text-gray-400 text-sm mt-3">Un'esperienza post-vendita moderna e veloce aumenta la retention dei clienti.</p>
+                      <p className="text-gray-400 text-sm mt-3">Esperienza post-vendita moderna.</p>
                     </div>
                   </div>
                 </motion.div>
               </div>
             </motion.div>
 
-            {/* Right Side - Stats Box */}
+            {/* PART 2: Banner/Stats Box (SOTTO) */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="relative mt-8 md:mt-0"
+              className="w-full max-w-4xl relative"
             >
               {/* Glow Background */}
               <motion.div animate={{ opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 bg-gradient-to-tr from-sf-primary via-teal-400 to-cyan-300 rounded-3xl blur-3xl"></motion.div>
@@ -805,48 +807,34 @@ function App() {
               {/* Main Container */}
               <div className="bg-gradient-to-tr from-sf-primary to-teal-400 rounded-3xl p-1 shadow-2xl relative z-10 overflow-hidden">
                 {/* Inner Content */}
-                <div className="bg-gray-900 rounded-2xl p-6 md:p-8 h-full backdrop-blur-sm">
-                  <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
+                <div className="bg-gray-900 rounded-2xl p-6 md:p-10 h-full backdrop-blur-sm">
+                  <div className="flex flex-col md:flex-row items-center gap-8 justify-around">
                     {/* Stat 1 */}
-                    <motion.div 
-                      whileHover={{ scale: 1.05, borderColor: "rgba(74, 222, 128, 0.6)" }}
-                      className="bg-gradient-to-br from-gray-800 to-gray-700 p-4 md:p-6 rounded-2xl text-center border border-green-500/30 transition-all hover:shadow-lg hover:shadow-green-500/30 group cursor-pointer relative overflow-hidden"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                      <div className="relative z-10">
-                        <div className="text-3xl md:text-4xl font-black text-green-400 mb-2">+40%</div>
-                        <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Vendite</div>
-                      </div>
+                    <motion.div whileHover={{ scale: 1.1 }} className="text-center">
+                      <div className="text-5xl font-black text-green-400 mb-2 drop-shadow-glow">+40%</div>
+                      <div className="text-sm text-gray-300 uppercase tracking-widest font-bold bg-gray-800/50 px-4 py-1 rounded-full">Vendite Ricambi</div>
                     </motion.div>
+
+                    <div className="hidden md:block h-20 w-px bg-gray-700"></div>
 
                     {/* Stat 2 */}
-                    <motion.div 
-                      whileHover={{ scale: 1.05, borderColor: "rgba(251, 146, 60, 0.6)" }}
-                      className="bg-gradient-to-br from-gray-800 to-gray-700 p-4 md:p-6 rounded-2xl text-center border border-orange-500/30 transition-all hover:shadow-lg hover:shadow-orange-500/30 group cursor-pointer relative overflow-hidden"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                      <div className="relative z-10">
-                        <div className="text-3xl md:text-4xl font-black text-orange-400 mb-2">-32%</div>
-                        <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Tempo</div>
-                      </div>
+                    <motion.div whileHover={{ scale: 1.1 }} className="text-center">
+                      <div className="text-5xl font-black text-orange-400 mb-2 drop-shadow-glow">-32%</div>
+                      <div className="text-sm text-gray-300 uppercase tracking-widest font-bold bg-gray-800/50 px-4 py-1 rounded-full">Tempo Gestione</div>
                     </motion.div>
 
-                    {/* Stat 3 - Full Width */}
-                    <motion.div 
-                      whileHover={{ scale: 1.02, borderColor: "rgba(96, 165, 250, 0.6)" }}
-                      className="bg-gradient-to-br from-gray-800 to-gray-700 p-4 md:p-6 rounded-2xl text-center col-span-2 border border-blue-500/30 transition-all hover:shadow-lg hover:shadow-blue-500/30 group cursor-pointer relative overflow-hidden"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                      <div className="relative z-10">
-                        <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-blue-400 mx-auto mb-3 group-hover:animate-spin" />
-                        <div className="text-xl md:text-2xl font-black text-blue-400 mb-1">AI Integrata</div>
-                        <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Generazione Automatica</div>
-                      </div>
+                     <div className="hidden md:block h-20 w-px bg-gray-700"></div>
+
+                    {/* Stat 3 */}
+                    <motion.div whileHover={{ scale: 1.1 }} className="text-center">
+                       <Sparkles className="w-10 h-10 text-blue-400 mx-auto mb-2 animate-pulse" />
+                       <div className="text-xl font-black text-white">AI Integrata</div>
+                       <div className="text-xs text-blue-400 font-bold mt-1">AUTOMAZIONE 100%</div>
                     </motion.div>
                   </div>
 
-                  <div className="mt-6 pt-6 border-t border-gray-700/50">
-                    <p className="text-center text-gray-500 text-xs md:text-sm italic font-medium">
+                  <div className="mt-8 pt-6 border-t border-gray-700/50 text-center">
+                    <p className="text-gray-500 text-xs italic">
                       ✓ Dati basati su studi di caso con clienti ServiceFirst nei primi 6 mesi
                     </p>
                   </div>
@@ -857,41 +845,41 @@ function App() {
         </div>
       </section>
 
-      {/* CTA / Form Section */}
+      {/* CTA / Form Section - MIGLIORATO (Campi, Animazioni, Stili) */}
       <section id="form" className="scroll-mt-32 md:scroll-mt-40 py-16 md:py-24 bg-sf-light relative">
-        <div className="max-w-5xl mx-auto px-4 md:px-6">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <motion.div 
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-gray-100"
+            className="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-gray-100"
           >
-            <div className="md:w-5/12 p-6 md:p-10 bg-sf-primary text-white flex flex-col justify-center relative overflow-hidden">
-              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 5, repeat: Infinity }} className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></motion.div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4 relative z-10">Richiedi una Demo</h3>
-              <p className="mb-4 md:mb-6 opacity-90 relative z-10 text-sm md:text-base">
-                Scopri come ServiceFirst può rivoluzionare il tuo service. Compila il modulo per una consulenza gratuita.
-              </p>
-              <ul className="space-y-2 md:space-y-3 relative z-10 text-sm">
-                {[
-                    'Demo personalizzata',
-                    'Analisi dei processi attuali',
-                    'Preventivo su misura'
-                ].map((item, i) => (
-                    <motion.li 
-                        key={i}
-                        initial={{ x: -10, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 * i }}
-                        className="flex items-center gap-2"
-                    >
-                        <CheckCircle size={16} className="text-teal-300" /> {item}
-                    </motion.li>
-                ))}
-              </ul>
+            {/* Left Side: Information */}
+            <div className="md:w-5/12 p-8 md:p-12 bg-gradient-to-br from-sf-primary to-teal-700 text-white flex flex-col justify-center relative overflow-hidden">
+              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 5, repeat: Infinity }} className="absolute -right-20 -bottom-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></motion.div>
+              
+              <div className="relative z-10">
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">Richiedi una Demo</h3>
+                <p className="mb-8 opacity-90 text-base md:text-lg leading-relaxed">
+                  Scopri come ServiceFirst può rivoluzionare il tuo service. Compila il modulo per una consulenza personalizzata.
+                </p>
+                
+                <ul className="space-y-4">
+                  <motion.li initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="flex items-center gap-3 font-medium">
+                    <div className="bg-white/20 p-2 rounded-full"><Check size={18} className="text-white" /></div> Demo personalizzata
+                  </motion.li>
+                  <motion.li initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="flex items-center gap-3 font-medium">
+                     <div className="bg-white/20 p-2 rounded-full"><Check size={18} className="text-white" /></div> Analisi dei processi
+                  </motion.li>
+                  <motion.li initial={{ x: -20, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="flex items-center gap-3 font-medium">
+                     <div className="bg-white/20 p-2 rounded-full"><Check size={18} className="text-white" /></div> Preventivo su misura
+                  </motion.li>
+                </ul>
+              </div>
             </div>
             
-            <div className="md:w-7/12 p-6 md:p-10">
+            {/* Right Side: The Form */}
+            <div className="md:w-7/12 p-8 md:p-12 bg-white">
               {status === 'success' ? (
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -902,55 +890,125 @@ function App() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 100 }}
-                    className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4"
+                    className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6"
                   >
-                    <CheckCircle size={32} />
+                    <CheckCircle size={40} />
                   </motion.div>
-                  <h4 className="text-2xl font-bold text-sf-dark mb-2">Richiesta Inviata!</h4>
-                  <p className="text-gray-600">Un nostro consulente ti contatterà a breve per fissare la demo.</p>
+                  <h4 className="text-3xl font-bold text-sf-dark mb-3">Richiesta Inviata!</h4>
+                  <p className="text-gray-600 text-lg">Grazie per il tuo interesse.<br/>Un nostro consulente ti contatterà a breve.</p>
+                  <button onClick={() => setStatus(null)} className="mt-8 text-sf-primary font-bold hover:underline">Invia nuova richiesta</button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Nome e Cognome *</label>
-                    <input 
-                      type="text" 
-                      name="nome"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-sf-primary focus:ring-2 focus:ring-teal-100 outline-none transition text-sm md:text-base"
-                      placeholder="Mario Rossi"
-                      onChange={handleChange}
-                    />
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Nome */}
+                    <div className="relative group">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                        <User size={14}/> Nome e Cognome *
+                      </label>
+                      <input 
+                        type="text" name="nome" required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-sf-primary focus:ring-4 focus:ring-teal-500/10 transition-all outline-none"
+                        placeholder="Mario Rossi" onChange={handleChange} 
+                      />
+                    </div>
+                    
+                    {/* Telefono */}
+                    <div className="relative group">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                        <Phone size={14}/> Telefono
+                      </label>
+                      <input 
+                        type="tel" name="telefono"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-sf-primary focus:ring-4 focus:ring-teal-500/10 transition-all outline-none"
+                        placeholder="+39 333 1234567" onChange={handleChange} 
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Email Aziendale *</label>
-                    <input 
-                      type="email" 
-                      name="email"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-sf-primary focus:ring-2 focus:ring-teal-100 outline-none transition text-sm md:text-base"
-                      placeholder="mario@azienda.it"
-                      onChange={handleChange}
-                    />
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                     {/* Email */}
+                    <div className="relative group">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                        <Globe size={14}/> Email *
+                      </label>
+                      <input 
+                        type="email" name="email" required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-sf-primary focus:ring-4 focus:ring-teal-500/10 transition-all outline-none"
+                        placeholder="mario@azienda.it" onChange={handleChange} 
+                      />
+                    </div>
+
+                    {/* Azienda */}
+                    <div className="relative group">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                         <Building2 size={14}/> Azienda *
+                      </label>
+                      <input 
+                        type="text" name="azienda" required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-sf-primary focus:ring-4 focus:ring-teal-500/10 transition-all outline-none"
+                        placeholder="Nome della tua azienda" onChange={handleChange} 
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Azienda</label>
-                    <input 
-                      type="text" 
-                      name="azienda"
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-sf-primary focus:ring-2 focus:ring-teal-100 outline-none transition text-sm md:text-base"
-                      placeholder="Nome della tua azienda"
-                      onChange={handleChange}
-                    />
+
+                  {/* Ruolo (Full width on mobile, standard elsewhere) */}
+                   <div className="relative group">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                         <Briefcase size={14}/> Ruolo in azienda
+                      </label>
+                      <input 
+                        type="text" name="ruolo"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-sf-primary focus:ring-4 focus:ring-teal-500/10 transition-all outline-none"
+                        placeholder="Es. Responsabile Service, CEO..." onChange={handleChange} 
+                      />
+                    </div>
+
+                   {/* Messaggio */}
+                   <div className="relative group">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                         <MessageSquare size={14}/> Messaggio (Opzionale)
+                      </label>
+                      <textarea 
+                        name="messaggio" rows="3"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:bg-white focus:border-sf-primary focus:ring-4 focus:ring-teal-500/10 transition-all outline-none resize-none"
+                        placeholder="Hai domande specifiche?" onChange={handleChange} 
+                      ></textarea>
+                    </div>
+
+                  {/* Privacy Checkbox */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center h-5">
+                      <input 
+                        id="privacy" name="privacy" type="checkbox" required
+                        className="w-4 h-4 text-sf-primary border-gray-300 rounded focus:ring-sf-primary cursor-pointer"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <label htmlFor="privacy" className="text-sm text-gray-500 cursor-pointer">
+                      Ho letto e accetto la <a href="#" className="text-sf-primary underline decoration-dotted">Privacy Policy</a> e acconsento al trattamento dei dati.
+                    </label>
                   </div>
+
+                  {/* Submit Button */}
                   <motion.button 
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit" 
                     disabled={status === 'loading'}
-                    className="w-full bg-sf-dark text-white font-bold py-3 md:py-4 rounded-lg hover:bg-sf-primary transition flex justify-center items-center gap-2 shadow-lg mt-2 text-sm md:text-base disabled:opacity-50"
+                    className="w-full bg-sf-dark text-white font-bold py-4 rounded-xl hover:bg-gray-900 transition-all shadow-lg hover:shadow-xl flex justify-center items-center gap-3 text-lg disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {status === 'loading' ? 'Invio in corso...' : <>PRENOTA DEMO <ArrowRight size={20} /></>}
+                    {status === 'loading' ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Invio in corso...
+                      </>
+                    ) : (
+                      <>PRENOTA DEMO <ArrowRight size={20} /></>
+                    )}
                   </motion.button>
                 </form>
               )}
@@ -963,7 +1021,7 @@ function App() {
       <footer className="bg-white border-t border-gray-100 py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
           <motion.div whileHover={{ scale: 1.1, filter: "grayscale(0%)", opacity: 1 }} className="w-20 md:w-24 opacity-80 grayscale transition cursor-pointer">
-             <img src={mainLogo} alt="Service First" />
+             <img src="./src/assets/img/s1.png" alt="Service First" />
           </motion.div>
           <div className="flex gap-6 text-gray-400">
              <motion.div whileHover={{ color: "#0d9488", rotate: 15 }}><Globe size={20} className="cursor-pointer"/></motion.div>
