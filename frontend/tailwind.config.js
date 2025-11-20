@@ -8,14 +8,25 @@ export default {
     extend: {
       colors: {
         sf: {
-          primary: '#002F6C', // Blu ServiceFirst
-          secondary: '#F05A28', // Arancione ServiceFirst
-          light: '#F4F6F8',
-          dark: '#1A1A1A',
+          primary: '#2f969c',
+          dark: '#1a1a1a',
+          black: '#000000',
+          light: '#f0fdfa',
+          gray: '#f3f4f6',
         }
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
+      },
+      // AGGIUNTA ANIMAZIONE MARQUEE
+      animation: {
+        marquee: 'marquee 40s linear infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }, // Si sposta del 50% perché duplichiamo la lista
+        }
       }
     },
   },
