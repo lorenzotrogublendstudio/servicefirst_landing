@@ -251,7 +251,7 @@ function App() {
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="w-24 md:w-32">
-            <img src="./src/assets/img/s1.png" alt="Service First Logo" className="w-full h-auto object-contain" />
+            <img src="https://servicefirst.it/wp-content/uploads/2025/08/s1.png" alt="Service First Logo" className="w-full h-auto object-contain" />
           </div>
           <motion.a 
             whileHover={{ scale: 1.05 }}
