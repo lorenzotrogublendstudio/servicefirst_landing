@@ -318,20 +318,18 @@ function App() {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               className="relative z-10 bg-white rounded-2xl p-2 shadow-2xl border border-gray-100"
             >
-             <div className="bg-black rounded-xl overflow-hidden w-full h-full shadow-2xl border border-gray-200 relative">
-                  {/* Container per aspect ratio 16:9 (56.25%) */}
-                  <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
-                    <iframe 
-                      /* AGGIUNGI IL PARAMETRO h=... SE IL VIDEO E' PRIVATO */
-                      /* Esempio: .../video/1139982611?h=IL_TUO_HASH&badge=0... */
-                      src="https://player.vimeo.com/video/1139982611?badge=0&autopause=0&player_id=0&app_id=58479&background=1" 
-                      frameBorder="0" 
-                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} 
-                      title="Video Catalogo_ServiceFirst_Catalog_subENG"
-                    ></iframe>
-                  </div>
-                </div>
+            <div className="bg-black rounded-xl overflow-hidden w-full h-full shadow-2xl border border-gray-200 relative">
+              {/* Container per aspect ratio 16:9 */}
+              <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+                <iframe 
+                  src="https://player.vimeo.com/video/1139982611?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1" 
+                  frameBorder="0" 
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} 
+                  title="Video Catalogo_ServiceFirst_Catalog_subENG"
+                ></iframe>
+              </div>
+            </div>
             </motion.div>
           </motion.div>
         </div>
